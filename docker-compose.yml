@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_db_jee
+    environment:
+      MYSQL_ROOT_PASSWORD: khalidroot
+      MYSQL_DATABASE: database_jee
+      MYSQL_USER: khalid
+      MYSQL_PASSWORD: khalid1234
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mysql_network
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_jee
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: khalidroot
+    ports:
+      - "8080:80"
+    networks:
+      - mysql_network
+    restart: always
+
+volumes:
+  mysql_data:
+
+networks:
+  mysql_network:
+    driver: bridge
